@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="scaffolded-by" content="https://github.com/dart-lang/sdk">
+    <title>quickstart</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <div id="output"></div>
+  <img id ="image" src="https://gibs-b.earthdata.nasa.gov/wmts/epsg4326/best/wmts.cgi?TIME=2023-06-16&layer=MODIS_Terra_CorrectedReflectance_TrueColor&tilematrixset=250m&Service=WMTS&Request=GetTile&Version=1.0.0&Format=image%2Fjpeg&TileMatrix=4&TileCol=11&TileRow=5">
+
+<script>
+  function getResult() {
+    url = document.body.querySelector("#image").src;
+    fetch('/prediction', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json' // Adjust if sending different data formats
+  },
+  body: JSON.stringify({ 
+    url:  url
+  })
+})
+.then(response => {
+  if (!response.ok) { // Check for HTTP error statuses (e.g., 400, 500)
+    throw new Error('Network response was not ok');
+  }
+  return response.json(); // Parse JSON response (if applicable)
+})
+.then(data => {
+  console.log('Success:', data); 
+})
+.catch(error => {
+  console.error('Error:', error);
+});
+  }
+
+  getResult();
+</script>
+
+
+</body>
+</html>
